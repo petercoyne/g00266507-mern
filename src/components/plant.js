@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export class Plant extends Component {
 
@@ -13,9 +13,9 @@ export class Plant extends Component {
 
     render() {
         return (
-			<tr className="h-4 max-h-4">
+			<tr>
 				<td className="object-contain pr-4">
-					<img className="h-24" src="/tree1.webp" alt="plant"/>
+					<img className="h-24 mx-auto" src={"/2d/" + this.props.plant.image + ".webp"} alt="plant"/>
 				</td>
 				<td>
                 	<h1 className="text-3xl font-bold pr-12">{this.props.plant.name}</h1>

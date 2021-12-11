@@ -11,7 +11,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <header className="App-header">
-            <nav className="w-full flex p-8 bg-gray-100 items-center">
+            <nav className="w-full flex p-8 bg-gray-200 items-center">
               <img src="/lowpoly.svg" className="mr-4" alt="Lowpoly Garden Centre"/>
               <div>
                 <Link to="/" className="button bg-gray-300 hover:bg-gray-200">List Products</Link>
