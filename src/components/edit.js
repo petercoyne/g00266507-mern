@@ -106,7 +106,7 @@ export class Edit extends Component { // component for export
 								value={this.state.image}
 								onChange={this.onChangePlantImage}>
 								{/* this populates the <select> with the list of 3d models */}
-								{modelList.map((item) => <option value={item}>{item}</option>)}
+								{modelList.map((item, key) => <option value={item}>{item}</option>)}
 							</select>
 							
 							<input type="submit" value="Save Changes" className="border p-4 rounded-xl bg-blue-600 text-white mt-4"/>

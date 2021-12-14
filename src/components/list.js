@@ -14,8 +14,9 @@ export class List extends Component {
 	state = {
 		plants: [], // set this.state.plants to blank array
 		filterName: "",
-		filterValue: 300
+		filterValue: 50
 	};
+
 
 	loadData() {
 		console.log("loading data")
@@ -37,23 +38,22 @@ export class List extends Component {
 	}
 	onChangeFilterValue(e) {
 		this.setState({ filterValue: e.currentTarget.value });
-		// console.log(e.currentTarget.getAttribute('min'));
 	}
 
 	render() {
 		return (
 			<div>
-				<div class="flex border-b mb-8 p-8 border-gray-200 bg-gray-50">
-					<input name="filter" type="text" placeholder="Filter by name" class="p-2 mb-0 rounded-2xl border border-gray-300"
+				<div className="flex border-b mb-8 p-8 border-gray-200 bg-gray-50">
+					<input name="filter" type="text" placeholder="Filter by name" className="p-2 mb-0 rounded-2xl border border-gray-300"
 						value={this.state.filterName}
 						onChange={this.onChangeFilterName}></input>
-					<div class="flex-grow ml-8 mr-2">
-						<h3 class="mb-2 uppercase text-sm text-gray-500">Filter by max price</h3>
+					<div className="flex-grow ml-8 mr-2">
+						<h3 className="mb-2 uppercase text-sm text-gray-500">Filter by max price</h3>
 						<div>
-							<input type="range"	min={0} max={300}
+							<input type="range"	min={0} max={50}
 								value={this.state.filterValue}
 								onChange={this.onChangeFilterValue}/>
-							<span class="p-2 text-gray-500">€{this.state.filterValue}</span>
+							<span className="p-2 text-gray-500">€{this.state.filterValue}</span>
 						</div>
 					</div>
 				</div>
@@ -75,7 +75,7 @@ export class List extends Component {
 							return parseInt(el.price) <= this.state.filterValue; // return elements less than max price value
 						})
 						.map((plant, key) => {
-							return <Plant plant={plant} key={key}></Plant> // return
+							return <Plant plant={plant} key={key} loadData={this.loadData}></Plant> // return
 						})}
 					</tbody>
 				</table>
