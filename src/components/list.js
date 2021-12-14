@@ -13,8 +13,8 @@ export class List extends Component {
 
 	state = {
 		plants: [], // set this.state.plants to blank array
-		filterName: "",
-		filterValue: 50
+		filterName: "", // name filter
+		filterValue: 50 // price filter
 	};
 
 
