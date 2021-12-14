@@ -1,5 +1,18 @@
 import { Component } from "react"; // we just need Component
 import axios from 'axios'; // axios for HTTP requests
+import { withRouter } from "react-router-dom";
+
+function importAll(r) {
+	return r.keys().map(r); // helper function to break down array of objects
+}
+
+// grab a list of files in the /public/3d directory
+const models = importAll(require.context('../../public/3d', false, /\.(gltf)$/));
+let modelList = []
+
+models.forEach((model, i) => {
+	modelList[i] = model.default.slice(14, -14) // Extract just the names into regular array
+})
 
 export class Add extends Component { // component for export
 
@@ -34,8 +47,8 @@ export class Add extends Component { // component for export
 			image: this.state.image
 		}
 
-		axios.post('http://localhost:4000/', newPlant)
-		.then((res) => {console.log(res)})
+		axios.post('http://localhost:4000/api/', newPlant)
+		.then((res) => {this.props.history.push("/");}) // redirect home
 		.catch((err) => {console.log(err)});
 	}
 
@@ -47,35 +60,42 @@ export class Add extends Component { // component for export
 
 	render() {
 		return ( // return some html
-			<div className="App">
+			<div className="App p-8">
 				<form onSubmit={this.onSubmit}>
+					<div className="flex">
+							<div className="flex flex-col max-w-xl">
+								<label className="text-gray-600">Plant Name: </label>
+								<input type="text"
+									className="border p-4 text-3xl font-bold rounded-xl"
+									value={this.state.name}
+									onChange={this.onChangePlantName}
+								/>
 
-						<label>Plant Name: </label>
-						<input type="text"
-							value={this.state.name}
-							onChange={this.onChangePlantName}
-						/>
+								<label className="mt-4 text-gray-600">Plant Price: </label>
+								<input type="number"
+									className="border p-4 text-xl font-bold rounded-xl"
+									value={this.state.price}
+									onChange={this.onChangePlantPrice}
+								/>
 
-						<label>Plant Price: </label>
-						<input type="number"
-							value={this.state.price}
-							onChange={this.onChangePlantPrice}
-						/>
+								<label className="mt-4 text-gray-600">Plant Description: </label>
+								<textarea type="text"
+									className="border p-4 rounded-xl"
+									value={this.state.description}
+									onChange={this.onChangePlantDescription}
+								/>
 
-						<label>Plant Description: </label>
-						<textarea
-							type="text"
-							value={this.state.description}
-							onChange={this.onChangePlantDescription}
-						/>
+								<label className="mt-4 text-gray-600">Plant Model: </label>
+								<select
+									className="border p-4 rounded-xl"
+									value={this.state.image}
+									onChange={this.onChangePlantImage}>
+									{modelList.map((item) => <option value={item}>{item}</option>)}
+								</select>
 
-						<label>Plant Image URL: </label>
-						<input type="text"
-							value={this.state.image}
-							onChange={this.onChangePlantImage}
-						/>
-
-					<input type="submit" value="Add Product" />
+							<input type="submit" value="Add Product"  className="border p-4 rounded-xl bg-blue-600 text-white mt-4"/>
+						</div>
+					</div>
 				</form>
 			</div>
 		);
