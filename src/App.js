@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Add } from './components/add'
 import { List } from './components/list'
 import { Edit } from './components/edit'
+import { Delete } from './components/delete'
 
 class App extends Component {
   render() {
@@ -23,8 +24,8 @@ class App extends Component {
             <Switch>
               <Route path='/' component={List} exact />
               <Route path='/add' component={Add} />
-              {/* <Route path='/edit/:id' render={(props) => <Edit {...props} />}/> */}
               <Route path='/edit/:id' component={Edit}/>
+              <Route path='/delete/:id' component={Delete}/>
             </Switch>
           </div>
         </div>

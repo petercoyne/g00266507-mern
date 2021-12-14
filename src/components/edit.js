@@ -1,13 +1,24 @@
 import { Component } from "react"; // we just need Component
 import axios from 'axios'; // axios for HTTP requests
-import { Viewer } from './viewer'
+import { Viewer } from './viewer' // 3d model viewer component
+
+function importAll(r) {
+	return r.keys().map(r); // helper function to break down array of objects
+}
+
+// grab a list of files in the /public/3d directory
+const models = importAll(require.context('../../public/3d', false, /\.(gltf)$/));
+let modelList = []
+
+models.forEach((model, i) => {
+	modelList[i] = model.default.slice(14, -14) // Extract just the names into regular array
+})
 
 export class Edit extends Component { // component for export
 
 	constructor(props) {
-		console.log("Constructor firing")
 		super(props);
-		console.log(this.props);
+
 		// bindings
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onChangePlantName = this.onChangePlantName.bind(this);
@@ -25,9 +36,7 @@ export class Edit extends Component { // component for export
 	}
 
 	componentDidMount() { // fires when component is mounted
-		console.log(this.props.match.params.id); //
-
-		axios.get(`http://localhost:4000/edit/${this.props.match.params.id}`) // get plant from endpoint
+		axios.get(`http://localhost:4000/api/edit/${this.props.match.params.id}`) // get plant from endpoint
 		.then(res => {
 			console.log(res.data.name); // log the title
 			this.setState({ // set the state of this ecomponent to the response from the endpoint
@@ -39,6 +48,7 @@ export class Edit extends Component { // component for export
 			})
 		})
 		.catch(err => console.log(err)) // log error if it fails
+
 	}
 
 	// onSubmit function
@@ -52,8 +62,8 @@ export class Edit extends Component { // component for export
 			image: this.state.image
 		}
 
-		axios.put(`http://localhost:4000/edit/${this.state._id}`, newPlant) // 
-		.then(res => console.log(res))
+		axios.put(`http://localhost:4000/api/edit/${this.state._id}`, newPlant) // 
+		.then(res => this.props.history.push("/")) // send user back to list page
 		.catch(err => console.log(err))
 	}
 
@@ -91,11 +101,13 @@ export class Edit extends Component { // component for export
 							/>
 
 							<label className="mt-4 text-gray-600">Image</label>
-							<input type="text"
+							<select
 								className="border p-4 rounded-xl"
 								value={this.state.image}
-								onChange={this.onChangePlantImage}
-							/>
+								onChange={this.onChangePlantImage}>
+								{/* this populates the <select> with the list of 3d models */}
+								{modelList.map((item) => <option value={item}>{item}</option>)}
+							</select>
 							
 							<input type="submit" value="Save Changes" className="border p-4 rounded-xl bg-blue-600 text-white mt-4"/>
 						</div>
@@ -103,7 +115,7 @@ export class Edit extends Component { // component for export
 						<div>
 							<h4 className="ml-4 text-gray-500">Drag to rotate object</h4>
 							<div className="h-96 border border-gray-300 ml-4 rounded-xl">
-								<Viewer model={this.state.image} /><br/>
+								<Viewer model={this.state.image} /><br/> {/* bring in our Viewer component */}
 							</div>
 						</div>
 					</div>

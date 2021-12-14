@@ -2,9 +2,6 @@ import { Component } from "react";
 import axios from 'axios';
 import { Plant } from './plant'
 
-import Slider, { Range } from 'rc-slider'; // import the Range component for price filtering
-import 'rc-slider/assets/index.css';
-
 export class List extends Component {
 
 	constructor() {
@@ -22,7 +19,7 @@ export class List extends Component {
 
 	loadData() {
 		console.log("loading data")
-		axios.get('http://localhost:4000/') // request plants from our backend
+		axios.get('http://localhost:4000/api/') // request plants from our backend
 			.then((res) => {
 				this.setState({ plants: res.data });
 			})
@@ -78,7 +75,7 @@ export class List extends Component {
 							return parseInt(el.price) <= this.state.filterValue; // return elements less than max price value
 						})
 						.map((plant, key) => {
-							return <Plant plant={plant} key={key}></Plant>
+							return <Plant plant={plant} key={key}></Plant> // return
 						})}
 					</tbody>
 				</table>

@@ -1,5 +1,18 @@
 import { Component } from "react";
 import { Link } from 'react-router-dom';
+import { Viewer } from './viewer' // 3d model viewer component
+
+function importAll(r) {
+	return r.keys().map(r); // helper function to break down array of objects
+}
+
+// grab a list of files in the /public/3d directory
+const models = importAll(require.context('../../public/3d', false, /\.(gltf)$/));
+let modelList = []
+
+models.forEach((model, i) => {
+	modelList[i] = model.default.slice(14, -14) // Extract just the names into regular array
+})
 
 export class Plant extends Component {
 
@@ -15,7 +28,9 @@ export class Plant extends Component {
         return (
 			<tr>
 				<td className="object-contain pr-4">
-					<img className="h-24 mx-auto" src={"/2d/" + this.props.plant.image + ".webp"} alt="plant"/>
+					<div className="w-28 h-32">
+						<Viewer model={this.props.plant.image} />
+					</div>
 				</td>
 				<td>
                 	<h1 className="text-3xl font-bold pr-12">{this.props.plant.name}</h1>

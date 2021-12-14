@@ -4,7 +4,7 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 
 function Model(props) {
 	const { scene } = useGLTF(`/3d/${props.filename}.gltf`);
-	return <primitive object={scene} position={[0,-2,0]} />;
+	return <primitive object={scene} position={[0,-0.5,0]} />;
 }
 
 function KeyLight() {
@@ -25,11 +25,13 @@ function KeyLight() {
 export class Viewer extends Component {
 	render() {
 		return (
-			<Canvas pixelRatio={[1, 2]} camera={{ position: [0, 0, 6], fov: 50 }}>
+			<Canvas pixelRatio={[1, 2]} camera={{ position: [0, 0, 6], fov: 20 }}>
 				<ambientLight intensity={0.3} />
 				<KeyLight />
 				<Suspense fallback={null}>
-					<Model filename={this.props.model} />
+					{this.props.model != "" &&
+						<Model filename={this.props.model} />
+					}
 				</Suspense>
 				<OrbitControls />
 			</Canvas>
