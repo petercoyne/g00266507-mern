@@ -1,8 +1,10 @@
+// Add component
 import { Component } from "react"; // we just need Component
 import axios from 'axios'; // axios for HTTP requests
 
+// helper function to break down array of objects for filesystem access of 3d models
 function importAll(r) {
-	return r.keys().map(r); // helper function to break down array of objects
+	return r.keys().map(r);
 }
 
 // grab a list of files in the /public/3d directory
@@ -56,7 +58,7 @@ export class Add extends Component { // component for export
 	onChangePlantDescription(e) { this.setState({ description: e.target.value }) };
 	onChangePlantImage(e) { this.setState({ image: e.target.value }) };
 
-
+	// render function sprinkled with tailwind classNames for styling
 	render() {
 		return ( // return some html
 			<div className="App p-8">

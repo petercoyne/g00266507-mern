@@ -5,6 +5,8 @@ import { Add } from './components/add'
 import { List } from './components/list'
 import { Edit } from './components/edit'
 
+// App component, basically the navbar and the router
+// most of the classNames are tailwind utility classes
 class App extends Component {
   render() {
     return (

@@ -72,6 +72,8 @@ export class Edit extends Component { // component for export
 	onChangePlantDescription(e) { this.setState({ description: e.target.value }) };
 	onChangePlantImage(e) { this.setState({ image: e.target.value }) };
 
+
+	// render function sprinkled with tailwind classNames for styling
 	render() {
 		return ( // return some html
 			<div className="App p-8">
@@ -111,7 +113,6 @@ export class Edit extends Component { // component for export
 							
 							<input type="submit" value="Save Changes" className="border p-4 rounded-xl bg-blue-600 text-white mt-4"/>
 						</div>
-						{/* <div><img className="w-64 ml-8 object-contain" alt="preview" src={"/" + this.state.image}/></div> */}
 						<div>
 							<h4 className="ml-4 text-gray-500">Drag to rotate object</h4>
 							<div className="h-96 border border-gray-300 ml-4 rounded-xl">

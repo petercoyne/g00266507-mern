@@ -2,12 +2,15 @@ import React, { Suspense, Component } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 
+// 3d Model viewer component
+
 function Model(props) {
-	const { scene } = useGLTF(`/3d/${props.filename}.gltf`);
-	return <primitive object={scene} position={[0,-0.4,0]} />;
+	const { scene } = useGLTF(`/3d/${props.filename}.gltf`); // load the relevant model into the scene object
+	return <primitive object={scene} position={[0,-0.4,0]} />; // place the object just below 0,0,0 so it's centred in the viewport
 }
 
-function KeyLight() {
+// Create a point light for the scene
+function KeyLight() { 
 	return (
 	  <pointLight
 		width={3}
@@ -22,6 +25,7 @@ function KeyLight() {
 	);
   }
 
+// body of viewer component, contains canvas with camera, an ambient light, a point light, model (in suspense component) and orbital controls
 export class Viewer extends Component {
 	render() {
 		return (

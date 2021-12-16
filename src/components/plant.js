@@ -1,3 +1,5 @@
+// Single plant component for our product list
+
 import { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Viewer } from './viewer' // 3d model viewer component
@@ -30,6 +32,7 @@ export class Plant extends Component {
 		.catch()
 	}
 
+	// render function with tailwind classNames for styling
     render() {
         return (
 			<tr>
