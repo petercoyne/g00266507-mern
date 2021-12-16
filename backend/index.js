@@ -1,24 +1,19 @@
 const express = require('express')
 const app = express()
 const port = 4000
-const cors = require('cors') // require cross origin resource sharing npm package
+
 const bodyParser = require('body-parser') // require body parser middleware
 const mongoose = require('mongoose') // mongodb package
+const path = require('path')
 
-app.use(cors()); // get express to use cors
-
-app.use(function (req, res, next) { // headers to allow cross origin stuff 
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
-});
+app.use(express.static(path.join(__dirname, '../build'))) // configure the location of the built file paths
+app.use('/static', express.static(path.join(__dirname, 'build/static'))) // configure the location of the static subfolder
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.listen(port, () => { // default listen function
-	console.log(`Example app listening at http://localhost:${port}`)
+	console.log(`CRUD project listening at http://localhost:${port}`)
 })
 
 main().catch(err => console.log(err)) // run main(), catch errors and log to console
@@ -44,7 +39,7 @@ app.get('/api/', (req, res) => { // route for GET on /
 	})
 })
 
-app.post('/api/', (req, res) => { // route for POST on /api/movies
+app.post('/api/', (req, res) => { // route for POST on /api/
 	console.log("Creating new product"); // message to confirm POST request
 	console.log(req.body.name); // log the various name/value pairs to console
 	console.log(req.body.price);
@@ -67,9 +62,9 @@ app.get('/api/edit/:id', (req,res) => { // route with dynamic :id parameter
 	})
 })
 
-app.put('/api/edit/:id', (req, res) => { // route for updating movie
-	console.log(`Update product: ` + req.params.id); // log movie id
-	console.log(req.body); // log movie to be updated
+app.put('/api/edit/:id', (req, res) => { // route for updating product
+	console.log(`Update product: ` + req.params.id); // log product id
+	console.log(req.body); // log product to be updated
 
 	plantModel.findByIdAndUpdate(req.params.id, req.body, {new:true}, // find by id, replace with req.body
 		(err, data) => {
@@ -84,4 +79,9 @@ app.delete('/api/:id', (req, res) => { // delete route, takes in :id parameter
 	plantModel.findByIdAndDelete(req.params.id, (err, data) => { // this method takes an id which we get via req object
 		res.send(data); // this doesn't really matter
 	})
+})
+
+app.get('*', (req, res) => { // match all paths except ones we've already defined
+	console.log(`Frontend access.`)
+	res.sendFile(path.join(__dirname + '/../build/index.html')) // send back the built index.html
 })
